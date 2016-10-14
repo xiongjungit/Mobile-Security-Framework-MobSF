@@ -1,12 +1,20 @@
-FROM ubuntu:16.04
+#FROM ubuntu:16.04
+FROM daocloud.io/library/ubuntu:16.04
 
-MAINTAINER Ajin Abraham <ajin25@gmail.com>
+#FROM hub.c.163.com/nce2/ubuntu:16.04
+
+MAINTAINER xiongjun <fenyunxx@163.com>
+
 
 # Update the repository sources list
-RUN apt-get update -y
+
+ADD sources.list /etc/apt/sources.list
+
+RUN apt-get update
 
 #Install Git and required Libs
-RUN apt-get install -y \
+RUN apt-get -y --allow-unauthenticated install \
+    net-tools \
     git \
     build-essential \
     libssl-dev \
@@ -15,16 +23,16 @@ RUN apt-get install -y \
     libxslt1-dev
 
 #Install Oracle JDK 8
-RUN apt-get install -y software-properties-common && \
+RUN apt-get -y --allow-unauthenticated install software-properties-common && \
     add-apt-repository ppa:webupd8team/java -y && \
     apt-get update && \
     echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
-    apt-get install -y oracle-java8-installer && \
+    apt-get install -y --allow-unauthenticated oracle-java8-installer && \
     apt-get clean
 
 #Install Python, pip
 RUN \
-  apt-get install -y \
+  apt-get -y --allow-unauthenticated install \
   python \
   python-dev \
   python-pip && \
